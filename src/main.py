@@ -4,7 +4,7 @@ import pygame
 
 WIDTH = 1280
 HEIGHT = 720
-FPS = 1
+FPS = 60
 
 # Задаем цвета
 WHITE = (255, 255, 255)
@@ -36,7 +36,7 @@ class GameDeck(pygame.sprite.Sprite):
         # self.rect.center = (WIDTH / 2, HEIGHT / 2)
 
 class LogDeck(pygame.sprite.Sprite):
-    """docstring for GameDeck"""
+    """docstring for LogDeck"""
     def __init__(self):
         super(LogDeck, self).__init__()
         self.image = pygame.Surface((30 * 7, 30 * 13))
@@ -47,9 +47,8 @@ class LogDeck(pygame.sprite.Sprite):
         self.rect.y = 30
 
         self.log_list = []
-        self.log_list.append("AI: A1 -")
-        self.log_list.append("Player: A1 +")
-        self.log_list.append("Player: A2 +")
+        self.max_records = 13
+        self.bound = 0
 
         self.font = pygame.font.Font(None, 50)
         self.font_size = 50
@@ -57,20 +56,25 @@ class LogDeck(pygame.sprite.Sprite):
 
     def update(self):
         pass
-        # if not self.log_queue.empty():
-        #     self.draw_record()
-        #     self.num_records += 1
 
     def draw_records(self):
-        for position, record in enumerate(self.log_list):
-            # print((self.rect.x, self.rect.y + (self.font_size / 2) * self.num_records))
+        right_border = None if self.bound == 0 else -self.bound
+        for position, record in enumerate(self.log_list[-self.max_records - self.bound:right_border]):
             screen.blit(
                 self.font.render(record, False, BLACK),
                 (self.rect.x, self.rect.y + (self.font_size / 2 + 5) * position)
             )
 
     def add_record(self, record):
-        self.log_queue.put(record)
+        self.log_list.append(record)
+
+    def scroll_up(self):
+        if self.max_records + self.bound < len(self.log_list):
+            self.bound += 1
+
+    def scroll_down(self):
+        if self.bound > 0:
+            self.bound -= 1
 
 class MenuDeck(pygame.sprite.Sprite):
     def __init__(self):
@@ -110,6 +114,8 @@ all_sprites.add(menu_deck)
 
 pygame.font.init()
 
+debug_var = 0
+
 # Цикл игры
 running = True
 while running:
@@ -118,8 +124,16 @@ while running:
     # Ввод процесса (события)
     for event in pygame.event.get():
         # check for closing window
+        print(event.type)
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == 771:
+            log_deck.add_record(f"Player1 A{i} +")
+            debug_var += 1
+        elif event.type == 1025:
+            log_deck.scroll_up()
+        elif event.type == 1024:
+            log_deck.scroll_down()
 
     # Обновление
     all_sprites.update()
