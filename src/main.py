@@ -39,7 +39,9 @@ class LogDeck(pygame.sprite.Sprite):
     """docstring for LogDeck"""
     def __init__(self):
         super(LogDeck, self).__init__()
-        self.image = pygame.Surface((30 * 7, 30 * 13))
+        self.width = 30 * 9
+        self.height = 30 * 13
+        self.image = pygame.Surface((self.width, self.height))
         self.image.fill(RED)
 
         self.rect = self.image.get_rect()
@@ -47,12 +49,14 @@ class LogDeck(pygame.sprite.Sprite):
         self.rect.y = 30
 
         self.log_list = []
-        self.max_records = 13
+        self.max_records = 12
         self.bound = 0
 
-        self.font = pygame.font.SysFont(None, 50)
-        self.font_size = 50
-        # self.num_records = 0
+        self.font_size = 30
+        self.font = pygame.font.SysFont("Monospace", self.font_size, bold=True)
+
+        self.padding = 20, 15
+        self.record_interval = 15
 
     def update(self):
         pass
@@ -62,7 +66,10 @@ class LogDeck(pygame.sprite.Sprite):
         for position, record in enumerate(self.log_list[-self.max_records - self.bound:right_border]):
             screen.blit(
                 self.font.render(record, False, BLACK),
-                (self.rect.x, self.rect.y + (self.font_size / 2 + 5) * position)
+                (
+                    self.rect.x + self.padding[0],
+                    self.rect.y + self.padding[1] + (self.font_size / 2 + self.record_interval) * position
+                )
             )
 
     def add_record(self, record):
@@ -135,7 +142,9 @@ while running:
                 log_deck.scroll_down()
             elif event.key == pygame.K_a:
                 log_deck.add_record(f"Player1 A{debug_var} +")
-                debug_var += 1    
+                debug_var += 1
+            elif event.key == pygame.K_q:
+                running = False
 
     # Обновление
     all_sprites.update()
