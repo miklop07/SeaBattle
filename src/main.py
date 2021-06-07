@@ -1,6 +1,6 @@
 # Pygame шаблон - скелет для нового проекта Pygame
 import pygame
-import queue
+# import queue
 
 WIDTH = 1280
 HEIGHT = 720
@@ -12,19 +12,6 @@ BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
-
-# class Player(pygame.sprite.Sprite):
-#     def __init__(self):
-#         super().__init__()
-#         self.image = pygame.Surface((50, 50))
-#         self.image.fill(GREEN)
-#         self.rect = self.image.get_rect()
-#         self.rect.center = (WIDTH / 2, HEIGHT / 2)
-
-#     def update(self):
-#         self.rect.x += 5
-#         if self.rect.left > WIDTH:
-#             self.rect.right = 0
 
 class PlayerDeck(pygame.sprite.Sprite):
     def __init__(self, x_pos, y_pos):
@@ -49,7 +36,7 @@ class GameDeck(pygame.sprite.Sprite):
         # self.rect.center = (WIDTH / 2, HEIGHT / 2)
 
 class LogDeck(pygame.sprite.Sprite):
-    """docstring for GameDeck"""
+    """docstring for LogDeck"""
     def __init__(self):
         super(LogDeck, self).__init__()
         self.image = pygame.Surface((30 * 7, 30 * 13))
@@ -59,18 +46,37 @@ class LogDeck(pygame.sprite.Sprite):
         self.rect.x = 30 * 13 * 2 + 90 + 30
         self.rect.y = 30
 
-        self.log_list = queue.Queue()
-        # self.rect.center = (WIDTH / 2, HEIGHT / 2)
+        self.log_list = []
+        self.max_records = 13
+        self.bound = 0
+
+        self.font = pygame.font.SysFont(None, 50)
+        self.font_size = 50
+        # self.num_records = 0
 
     def update(self):
-        if not self.log_list.empty():
-            self.draw_record(self.log_list.get())
-
-    def draw_record(self):
         pass
 
+    def draw_records(self):
+        right_border = None if self.bound == 0 else -self.bound
+        for position, record in enumerate(self.log_list[-self.max_records - self.bound:right_border]):
+            screen.blit(
+                self.font.render(record, False, BLACK),
+                (self.rect.x, self.rect.y + (self.font_size / 2 + 5) * position)
+            )
+
     def add_record(self, record):
-        log_list.put(record)
+        self.log_list.append(record)
+        if self.bound != 0:
+            self.scroll_up()
+
+    def scroll_up(self):
+        if self.max_records + self.bound < len(self.log_list):
+            self.bound += 1
+
+    def scroll_down(self):
+        if self.bound > 0:
+            self.bound -= 1
 
 class MenuDeck(pygame.sprite.Sprite):
     def __init__(self):
@@ -108,6 +114,10 @@ menu_deck = MenuDeck()
 all_sprites.add(menu_deck)
 # all_sprites.add(player)
 
+pygame.font.init()
+
+debug_var = 0
+
 # Цикл игры
 running = True
 while running:
@@ -118,6 +128,14 @@ while running:
         # check for closing window
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                log_deck.scroll_up()
+            elif event.key == pygame.K_DOWN:
+                log_deck.scroll_down()
+            elif event.key == pygame.K_a:
+                log_deck.add_record(f"Player1 A{debug_var} +")
+                debug_var += 1    
 
     # Обновление
     all_sprites.update()
@@ -125,6 +143,8 @@ while running:
     # Отрисовка
     screen.fill(WHITE)
     all_sprites.draw(screen)
+
+    log_deck.draw_records()
 
     # После отрисовки всего, переворачиваем экран
     pygame.display.flip()
