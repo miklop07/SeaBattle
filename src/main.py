@@ -61,7 +61,7 @@ class LogDeck(pygame.sprite.Sprite):
     def update(self):
         pass
 
-    def draw_records(self):
+    def draw(self):
         right_border = None if self.bound == 0 else -self.bound
         for position, record in enumerate(self.log_list[-self.max_records - self.bound:right_border]):
             screen.blit(
@@ -85,6 +85,27 @@ class LogDeck(pygame.sprite.Sprite):
         if self.bound > 0:
             self.bound -= 1
 
+class Button(pygame.sprite.Sprite):
+    def __init__(self, width=10, height=10, color=(BLACK), x_pos=0, y_pos=0, text="", text_color=WHITE):
+        super(Button, self).__init__()
+        self.width = width
+        self.height = height
+        self.image = pygame.Surface((self.width, self.height))
+        self.image.fill(color)
+
+        self.rect = self.image.get_rect()
+        self.rect.x = x_pos
+        self.rect.y = y_pos
+
+        self.font_size = 30
+        self.font = pygame.font.SysFont("Monospace", self.font_size, bold=True)
+        self.text = self.font.render(text, False, text_color)
+
+        self.padding = (width - len(text) * width // 13) // 2
+
+    def draw(self):
+        screen.blit(self.text, (self.rect.x + self.padding, self.rect.y + self.font_size))
+
 class MenuDeck(pygame.sprite.Sprite):
     def __init__(self):
         super(MenuDeck, self).__init__()
@@ -94,6 +115,30 @@ class MenuDeck(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = 90
         self.rect.y = 30 + 30 * 13 + 60
+
+        self.button_start = Button(
+            width=30 * 8,
+            height=30 * 3,
+            x_pos=self.rect.x + 15 * 5,
+            y_pos=self.rect.y + 30,
+            color=WHITE,
+            text="New game",
+            text_color=BLACK
+        )
+
+        self.button_exit = Button(
+            width=30 * 8,
+            height=30 * 3,
+            x_pos=self.rect.x + 15 * 5 + 30 * 13,
+            y_pos=self.rect.y + 30,
+            color=WHITE,
+            text="Exit",
+            text_color=BLACK
+        )
+
+    def draw(self):
+        self.button_start.draw()
+        self.button_exit.draw()
 
 # Создаем игру и окно
 pygame.init()
@@ -119,7 +164,8 @@ all_sprites.add(log_deck)
 
 menu_deck = MenuDeck()
 all_sprites.add(menu_deck)
-# all_sprites.add(player)
+all_sprites.add(menu_deck.button_start)
+all_sprites.add(menu_deck.button_exit)
 
 pygame.font.init()
 
@@ -135,7 +181,7 @@ while running:
         # check for closing window
         if event.type == pygame.QUIT:
             running = False
-        if event.type == pygame.KEYDOWN:
+        elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
                 log_deck.scroll_up()
             elif event.key == pygame.K_DOWN:
@@ -145,6 +191,13 @@ while running:
                 debug_var += 1
             elif event.key == pygame.K_q:
                 running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            m_x, m_y = pygame.mouse.get_pos()
+            if m_x >= menu_deck.button_exit.rect.x and \
+               m_x <= menu_deck.button_exit.rect.x + menu_deck.button_exit.width and \
+               m_y >= menu_deck.button_exit.rect.y and \
+               m_y <= menu_deck.button_exit.rect.y + menu_deck.button_exit.height:
+                running = False
 
     # Обновление
     all_sprites.update()
@@ -153,7 +206,8 @@ while running:
     screen.fill(WHITE)
     all_sprites.draw(screen)
 
-    log_deck.draw_records()
+    log_deck.draw()
+    menu_deck.draw()
 
     # После отрисовки всего, переворачиваем экран
     pygame.display.flip()
