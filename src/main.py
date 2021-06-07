@@ -39,10 +39,9 @@ class PlayerDeck(pygame.sprite.Sprite):
 
     def draw_grid(self):
         letters = ['A','B','C','D','E','F','G','H','I','J']
-        for j in range(11):
-            for i in range(11):
-                pygame.draw.line(self.image, BLACK, (0, j * 30), (30 * 11, j * 30))
-                pygame.draw.line(self.image, BLACK, (i * 30, 0), (30 * i, 11 * 30))
+        for i in range(11):
+            pygame.draw.line(self.image, BLACK, (0, i * 30), (30 * 11, i * 30))
+            pygame.draw.line(self.image, BLACK, (i * 30, 0), (30 * i, 11 * 30))
 
 
 class GameDeck(pygame.sprite.Sprite):
