@@ -35,6 +35,15 @@ class PlayerDeck(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x_pos
         self.rect.y = y_pos
+        self.draw_grid()
+
+    def draw_grid(self):
+        letters = ['A','B','C','D','E','F','G','H','I','J']
+        for j in range(11):
+            for i in range(11):
+                pygame.draw.line(self.image, BLACK, (0, j * 30), (30 * 11, j * 30))
+                pygame.draw.line(self.image, BLACK, (i * 30, 0), (30 * i, 11 * 30))
+
 
 class GameDeck(pygame.sprite.Sprite):
     """docstring for GameDeck"""
@@ -47,6 +56,8 @@ class GameDeck(pygame.sprite.Sprite):
         self.rect.x = 90
         self.rect.y = 30
         # self.rect.center = (WIDTH / 2, HEIGHT / 2)
+
+
 
 class LogDeck(pygame.sprite.Sprite):
     """docstring for GameDeck"""
