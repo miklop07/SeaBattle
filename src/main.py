@@ -50,7 +50,7 @@ class LogDeck(pygame.sprite.Sprite):
         self.max_records = 13
         self.bound = 0
 
-        self.font = pygame.font.Font(None, 50)
+        self.font = pygame.font.SysFont(None, 50)
         self.font_size = 50
         # self.num_records = 0
 
@@ -67,6 +67,8 @@ class LogDeck(pygame.sprite.Sprite):
 
     def add_record(self, record):
         self.log_list.append(record)
+        if self.bound != 0:
+            self.scroll_up()
 
     def scroll_up(self):
         if self.max_records + self.bound < len(self.log_list):
@@ -124,16 +126,16 @@ while running:
     # Ввод процесса (события)
     for event in pygame.event.get():
         # check for closing window
-        print(event.type)
         if event.type == pygame.QUIT:
             running = False
-        elif event.type == 771:
-            log_deck.add_record(f"Player1 A{i} +")
-            debug_var += 1
-        elif event.type == 1025:
-            log_deck.scroll_up()
-        elif event.type == 1024:
-            log_deck.scroll_down()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                log_deck.scroll_up()
+            elif event.key == pygame.K_DOWN:
+                log_deck.scroll_down()
+            elif event.key == pygame.K_a:
+                log_deck.add_record(f"Player1 A{debug_var} +")
+                debug_var += 1    
 
     # Обновление
     all_sprites.update()
