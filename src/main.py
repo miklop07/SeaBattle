@@ -108,10 +108,8 @@ class Button(pygame.sprite.Sprite):
 
     def is_mouse_on_button(self):
         m_x, m_y = pygame.mouse.get_pos()
-        if m_x >= menu_deck.button_exit.rect.x and \
-           m_x <= menu_deck.button_exit.rect.x + menu_deck.button_exit.width and \
-           m_y >= menu_deck.button_exit.rect.y and \
-           m_y <= menu_deck.button_exit.rect.y + menu_deck.button_exit.height:
+        if m_x >= self.rect.x and m_x <= self.rect.x + self.width and \
+           m_y >= self.rect.y and m_y <= self.rect.y + self.height:
             return True
         else:
             return False
