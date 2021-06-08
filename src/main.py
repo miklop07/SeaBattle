@@ -1,6 +1,4 @@
-# Pygame шаблон - скелет для нового проекта Pygame
 import pygame
-# import queue
 
 WIDTH = 1280
 HEIGHT = 720
@@ -13,6 +11,7 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
+
 class PlayerDeck(pygame.sprite.Sprite):
     def __init__(self, x_pos, y_pos):
         super(PlayerDeck, self).__init__()
@@ -22,6 +21,7 @@ class PlayerDeck(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x_pos
         self.rect.y = y_pos
+
 
 class GameDeck(pygame.sprite.Sprite):
     """docstring for GameDeck"""
@@ -34,6 +34,7 @@ class GameDeck(pygame.sprite.Sprite):
         self.rect.x = 90
         self.rect.y = 30
         # self.rect.center = (WIDTH / 2, HEIGHT / 2)
+
 
 class LogDeck(pygame.sprite.Sprite):
     """docstring for LogDeck"""
@@ -61,7 +62,7 @@ class LogDeck(pygame.sprite.Sprite):
     def update(self):
         pass
 
-    def draw(self):
+    def draw(self, screen):
         right_border = None if self.bound == 0 else -self.bound
         for position, record in enumerate(self.log_list[-self.max_records - self.bound:right_border]):
             screen.blit(
@@ -84,6 +85,7 @@ class LogDeck(pygame.sprite.Sprite):
     def scroll_down(self):
         if self.bound > 0:
             self.bound -= 1
+
 
 class Border(pygame.sprite.Sprite):
     def __init__(self, distance=(10, 10), center=(0,0), thickness=5, color=BLACK):
@@ -120,7 +122,7 @@ class Button(pygame.sprite.Sprite):
             color=BLACK
         )
 
-    def draw(self):
+    def draw(self, screen):
         screen.blit(self.text, (self.rect.x + self.padding, self.rect.y + self.font_size))
 
     def is_mouse_on_button(self):
@@ -130,6 +132,7 @@ class Button(pygame.sprite.Sprite):
             return True
         else:
             return False
+
 
 class MenuDeck(pygame.sprite.Sprite):
     def __init__(self):
@@ -163,78 +166,83 @@ class MenuDeck(pygame.sprite.Sprite):
             text_color=BLACK
         )
 
-    def draw(self):
-        self.button_start.draw()
-        self.button_exit.draw()
+    def draw(self, screen):
+        self.button_start.draw(screen)
+        self.button_exit.draw(screen)
 
-# Создаем игру и окно
-pygame.init()
-pygame.mixer.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("My Game")
-clock = pygame.time.Clock()
 
-all_sprites = pygame.sprite.Group()
+def main():
+    # Создаем игру и окно
+    pygame.init()
+    pygame.mixer.init()
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    pygame.display.set_caption("My Game")
+    clock = pygame.time.Clock()
 
-# player = Player()
-game_deck = GameDeck()
-all_sprites.add(game_deck)
+    all_sprites = pygame.sprite.Group()
 
-player1_deck = PlayerDeck(150, 90)
-all_sprites.add(player1_deck)
+    # player = Player()
+    game_deck = GameDeck()
+    all_sprites.add(game_deck)
 
-player2_deck = PlayerDeck(210 + 11 * 30, 90)
-all_sprites.add(player2_deck)
+    player1_deck = PlayerDeck(150, 90)
+    all_sprites.add(player1_deck)
 
-log_deck = LogDeck()
-all_sprites.add(log_deck)
+    player2_deck = PlayerDeck(210 + 11 * 30, 90)
+    all_sprites.add(player2_deck)
 
-menu_deck = MenuDeck()
-all_sprites.add(menu_deck)
-all_sprites.add(menu_deck.button_start.border)
-all_sprites.add(menu_deck.button_start)
-all_sprites.add(menu_deck.button_exit.border)
-all_sprites.add(menu_deck.button_exit)
+    log_deck = LogDeck()
+    all_sprites.add(log_deck)
 
-pygame.font.init()
+    menu_deck = MenuDeck()
+    all_sprites.add(menu_deck)
+    all_sprites.add(menu_deck.button_start.border)
+    all_sprites.add(menu_deck.button_start)
+    all_sprites.add(menu_deck.button_exit.border)
+    all_sprites.add(menu_deck.button_exit)
 
-debug_var = 0
+    pygame.font.init()
 
-# Цикл игры
-running = True
-while running:
-    # Держим цикл на правильной скорости
-    clock.tick(FPS)
-    # Ввод процесса (события)
-    for event in pygame.event.get():
-        # check for closing window
-        if event.type == pygame.QUIT:
-            running = False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
-                log_deck.scroll_up()
-            elif event.key == pygame.K_DOWN:
-                log_deck.scroll_down()
-            elif event.key == pygame.K_a:
-                log_deck.add_record(f"Player1 A{debug_var} +")
-                debug_var += 1
-            elif event.key == pygame.K_q:
+    debug_var = 0
+
+    # Цикл игры
+    running = True
+    while running:
+        # Держим цикл на правильной скорости
+        clock.tick(FPS)
+        # Ввод процесса (события)
+        for event in pygame.event.get():
+            # check for closing window
+            if event.type == pygame.QUIT:
                 running = False
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            if menu_deck.button_exit.is_mouse_on_button():
-                running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    log_deck.scroll_up()
+                elif event.key == pygame.K_DOWN:
+                    log_deck.scroll_down()
+                elif event.key == pygame.K_a:
+                    log_deck.add_record(f"Player1 A{debug_var} +")
+                    debug_var += 1
+                elif event.key == pygame.K_q:
+                    running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if menu_deck.button_exit.is_mouse_on_button():
+                    running = False
 
-    # Обновление
-    all_sprites.update()
+        # Обновление
+        all_sprites.update()
 
-    # Отрисовка
-    screen.fill(WHITE)
-    all_sprites.draw(screen)
+        # Отрисовка
+        screen.fill(WHITE)
+        all_sprites.draw(screen)
 
-    log_deck.draw()
-    menu_deck.draw()
+        log_deck.draw(screen)
+        menu_deck.draw(screen)
 
-    # После отрисовки всего, переворачиваем экран
-    pygame.display.flip()
+        # После отрисовки всего, переворачиваем экран
+        pygame.display.flip()
 
-pygame.quit()
+    pygame.quit()
+
+if __name__ == '__main__':
+    main()
