@@ -85,6 +85,16 @@ class LogDeck(pygame.sprite.Sprite):
         if self.bound > 0:
             self.bound -= 1
 
+class Border(pygame.sprite.Sprite):
+    def __init__(self, distance=(10, 10), center=(0,0), thickness=5, color=BLACK):
+        super(Border, self).__init__()
+        self.thickness = thickness
+        self.image = pygame.Surface((distance[0] + thickness, distance[1] + thickness))
+        self.image.fill(color)
+
+        self.rect = self.image.get_rect(center=center)
+
+
 class Button(pygame.sprite.Sprite):
     def __init__(self, width=10, height=10, color=(BLACK), x_pos=0, y_pos=0, text="", text_color=WHITE):
         super(Button, self).__init__()
@@ -103,6 +113,13 @@ class Button(pygame.sprite.Sprite):
 
         self.padding = (width - len(text) * width // 13) // 2
 
+        self.border = Border(
+            distance=(self.width, self.height),
+            center=self.rect.center,
+            thickness=10,
+            color=BLACK
+        )
+
     def draw(self):
         screen.blit(self.text, (self.rect.x + self.padding, self.rect.y + self.font_size))
 
@@ -117,7 +134,9 @@ class Button(pygame.sprite.Sprite):
 class MenuDeck(pygame.sprite.Sprite):
     def __init__(self):
         super(MenuDeck, self).__init__()
-        self.image = pygame.Surface((30 * 13 * 2, 30 * 5))
+        self.width = 30 * 13 * 2
+        self.height = 30 * 5
+        self.image = pygame.Surface((self.width, self.height))
         self.image.fill(GREEN)
 
         self.rect = self.image.get_rect()
@@ -172,7 +191,9 @@ all_sprites.add(log_deck)
 
 menu_deck = MenuDeck()
 all_sprites.add(menu_deck)
+all_sprites.add(menu_deck.button_start.border)
 all_sprites.add(menu_deck.button_start)
+all_sprites.add(menu_deck.button_exit.border)
 all_sprites.add(menu_deck.button_exit)
 
 pygame.font.init()
