@@ -106,6 +106,16 @@ class Button(pygame.sprite.Sprite):
     def draw(self):
         screen.blit(self.text, (self.rect.x + self.padding, self.rect.y + self.font_size))
 
+    def is_mouse_on_button(self):
+        m_x, m_y = pygame.mouse.get_pos()
+        if m_x >= menu_deck.button_exit.rect.x and \
+           m_x <= menu_deck.button_exit.rect.x + menu_deck.button_exit.width and \
+           m_y >= menu_deck.button_exit.rect.y and \
+           m_y <= menu_deck.button_exit.rect.y + menu_deck.button_exit.height:
+            return True
+        else:
+            return False
+
 class MenuDeck(pygame.sprite.Sprite):
     def __init__(self):
         super(MenuDeck, self).__init__()
@@ -192,11 +202,7 @@ while running:
             elif event.key == pygame.K_q:
                 running = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            m_x, m_y = pygame.mouse.get_pos()
-            if m_x >= menu_deck.button_exit.rect.x and \
-               m_x <= menu_deck.button_exit.rect.x + menu_deck.button_exit.width and \
-               m_y >= menu_deck.button_exit.rect.y and \
-               m_y <= menu_deck.button_exit.rect.y + menu_deck.button_exit.height:
+            if menu_deck.button_exit.is_mouse_on_button():
                 running = False
 
     # Обновление
