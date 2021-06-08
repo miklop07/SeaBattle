@@ -41,7 +41,6 @@ class PlayerDeck(pygame.sprite.Sprite):
         self.font = pygame.font.SysFont("Monospace", self.font_size, bold=True)
         self.draw_grid()
         self.nums_letters()
-        self.flag = 2
 
     def draw_grid(self):
         for i in range(1, 11):
@@ -62,13 +61,8 @@ class PlayerDeck(pygame.sprite.Sprite):
             self.image.blit(lets, (40 + i * 30, 5))
 
     def draw_ships(self, ships_list = None):
-        if self.flag:
-            print("\nDRAWING\n", ships_list)
         for ship in ships_list:
             forward_ship = sorted(ship)
-            if self.flag:
-                print("SORTED ", forward_ship)
-                self.flag -= 1
             x_0 = forward_ship[0][0]
             y_0 = forward_ship[0][1]
             ship_width = 30

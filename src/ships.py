@@ -24,7 +24,6 @@ class Ships:
             self.ships.add(block)
 
     def close_near_position(self, ship):
-        print("for", ship)
         for block in ship:
             for i in range(-1, 2):
                 for j in range(-1, 2):
@@ -36,23 +35,19 @@ class Ships:
     def create_one_ship(self, length_of_ship, available_blocks):
         coords = []
         x, y, is_vetrical, direction = self.choose_start(available_blocks)
-        print("start", available_blocks)
         for _ in range(length_of_ship):
             coords.append((x, y))
             if not is_vetrical:
                 direction, x = self.add_block_to_ship(x, direction, is_vetrical, coords)
             else:
                 direction, y = self.add_block_to_ship(y, direction, is_vetrical, coords)
-        print(coords)
         if self.is_free_place(coords):
-            print("OK")
             return coords
         else:
             return self.create_one_ship(length_of_ship, available_blocks)
 
     def create_all_ships(self):
         ships_coords_list = []
-        print("START CREATION")
         # reverse order of sizes because big ships are harder to set
         for length_of_ship in range(4, 0, -1):
             amount_of_ships = 5 - length_of_ship
@@ -61,7 +56,6 @@ class Ships:
                 ships_coords_list.append(ship)
                 self.add_to_set(ship)
                 self.close_near_position(ship)
-        print("END")
         return(ships_coords_list)
 
     def is_free_place(self, coords):
