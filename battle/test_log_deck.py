@@ -1,5 +1,5 @@
 import pygame
-from main import LogDeck
+from log_deck import LogDeck
 
 
 def test_log_init():
