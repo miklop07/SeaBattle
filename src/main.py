@@ -1,7 +1,8 @@
 # Pygame шаблон - скелет для нового проекта Pygame
 import pygame
 import queue
-from ships import Ships
+import copy
+from gamelogic import ForPlayer
 
 WIDTH = 1280
 HEIGHT = 720
@@ -80,8 +81,6 @@ class GameDeck(pygame.sprite.Sprite):
         self.rect.x = 90
         self.rect.y = 30
         # self.rect.center = (WIDTH / 2, HEIGHT / 2)
-
-
 
 
 class LogDeck(pygame.sprite.Sprite):
@@ -278,12 +277,27 @@ def main():
                 elif menu_deck.button_start.is_mouse_on_button():
                     player1_deck.renew()
                     player2_deck.renew()
-                    player1_ships = Ships()
-                    player2_ships = Ships()
-                    player1_deck.draw_ships(player1_ships.ships_list)
-                    player2_deck.draw_ships(player2_ships.ships_list)
+                    comp = ForPlayer(random_mode=True)
+                    pl = ForPlayer(random_mode=False)
+                    comp.add_opponent_list(pl.ships.ships_list)
+                    pl.add_opponent_list(comp.ships.ships_list)
+                    player1_deck.draw_ships(pl.ships.ships_list)
+                    player2_deck.draw_ships(comp.ships.ships_list)
                 else:
-                    pass
+                    if not comp.turn:
+                        x, y = event.pos
+                        left = 180 + 12 * 30
+                        up = 90
+                        block_to_fire = pl.find_fired_block(x, y)
+                        if block_to_fire is not None:
+                            is_hit, killed, ind = pl.perform_fire(block_to_fire)
+                            print("RES ", is_hit, killed, ind)
+                            if is_hit:
+                                comp.ships.ships.discard(block_to_fire)
+                            if killed:
+                                pl.killed.append(comp.ships.ships_list[ind])
+                    else:
+                        is_hit, killed, ind = comp.random_fire()
 
         # Обновление
         all_sprites.update()
