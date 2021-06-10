@@ -63,6 +63,11 @@ class PlayerDeck(pygame.sprite.Sprite):
             y = 30 * y_0
             pygame.draw.rect(self.image, GREY, ((x, y), (ship_width, ship_height)), width=3)
 
+    def renew(self):
+        self.image.fill(WHITE)
+        self.draw_grid()
+        self.nums_letters()
+
 
 class GameDeck(pygame.sprite.Sprite):
     """docstring for GameDeck"""
@@ -271,6 +276,8 @@ def main():
                 if menu_deck.button_exit.is_mouse_on_button():
                     running = False
                 elif menu_deck.button_start.is_mouse_on_button():
+                    player1_deck.renew()
+                    player2_deck.renew()
                     player1_ships = Ships()
                     player2_ships = Ships()
                     player1_deck.draw_ships(player1_ships.ships_list)
