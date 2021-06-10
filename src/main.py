@@ -49,7 +49,9 @@ class PlayerDeck(pygame.sprite.Sprite):
             self.image.blit(nums, (5, 35 + i * 30))
             self.image.blit(lets, (40 + i * 30, 5))
 
-    def draw_ships(self, ships_list = None):
+    def draw_ships(self, ships_list = None, killed_ships = []):
+        if not ships_list:
+            return
         for ship in ships_list:
             forward_ship = sorted(ship)
             x_0 = forward_ship[0][0]
@@ -62,7 +64,25 @@ class PlayerDeck(pygame.sprite.Sprite):
                 ship_width *= len(forward_ship)
             x = 30 * x_0
             y = 30 * y_0
-            pygame.draw.rect(self.image, GREY, ((x, y), (ship_width, ship_height)), width=3)
+            color = GREY
+            if ship in killed_ships:
+                # print("SHIP ", ship, " is killed")
+                color = RED
+            pygame.draw.rect(self.image, color, ((x, y), (ship_width, ship_height)), width=3)
+
+    def draw_dots(self, dot_set = set()):
+        for dot in dot_set:
+            x_pos = 30 * (dot[0]) + 15
+            y_pos = 30 * (dot[1]) + 15
+            pygame.draw.circle(self.image, BLACK, (x_pos, y_pos), 5)
+
+    def draw_killed(self, kill_set = set()):
+        for block in kill_set:
+            x = block[0] * 30
+            y = block[1] * 30
+            pygame.draw.line(self.image, BLACK, (x, y), (x + 30, y + 30), 5)
+            pygame.draw.line(self.image, BLACK, (x + 30, y), (x, y + 30), 5)
+
 
     def renew(self):
         self.image.fill(WHITE)
@@ -237,6 +257,9 @@ def main():
     player2_deck = PlayerDeck(180 + 11 * 30, 60)
     all_sprites.add(player2_deck)
 
+    comp = ForPlayer(random_mode=True)
+    pl = ForPlayer(random_mode=False)
+
     log_deck = LogDeck()
     all_sprites.add(log_deck)
 
@@ -278,7 +301,9 @@ def main():
                     player1_deck.renew()
                     player2_deck.renew()
                     comp = ForPlayer(random_mode=True)
+                    comp.add_ships()
                     pl = ForPlayer(random_mode=False)
+                    pl.add_ships()
                     comp.add_opponent_list(pl.ships.ships_list)
                     pl.add_opponent_list(comp.ships.ships_list)
                     player1_deck.draw_ships(pl.ships.ships_list)
@@ -295,7 +320,7 @@ def main():
                             if is_hit:
                                 comp.ships.ships.discard(block_to_fire)
                             if killed:
-                                pl.killed.append(comp.ships.ships_list[ind])
+                                comp.killed.append(comp.ships.ships_list[ind])
                     else:
                         is_hit, killed, ind = comp.random_fire()
 
@@ -307,6 +332,13 @@ def main():
         all_sprites.draw(screen)
         log_deck.draw(screen)
         menu_deck.draw(screen)
+
+        # player2_deck.draw_dots(pl.empty_blocks)
+        # player1_deck.draw_dots(comp.empty_blocks)
+        player2_deck.draw_killed(pl.hit_blocks)
+        player1_deck.draw_killed(comp.hit_blocks)
+        player1_deck.draw_ships(pl.ships.ships_list, pl.killed)
+        player2_deck.draw_ships(comp.ships.ships_list, comp.killed)
 
         # После отрисовки всего, переворачиваем экран
         pygame.display.flip()

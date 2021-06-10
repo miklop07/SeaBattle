@@ -12,11 +12,14 @@ class ForPlayer():
         self.hit_blocks = set()
         self.last_hit_list = list()
         self.killed = list()
-        self.ships = Ships()
+        self.ships = Ships(True)
         self.opponent_ships = None
 
     def add_opponent_list(self, ships):
         self.opponent_ships = copy.deepcopy(ships)
+
+    def add_ships(self):
+        self.ships = Ships()
 
     def random_fire(self):
         # short delay just to see the moment of shooting
@@ -38,10 +41,22 @@ class ForPlayer():
             return block_to_fire
 
     def update_sets(self, fired_block, is_killed):
-        pass
+        self.all_blocks.discard(fired_block)
+        self.hit_blocks.add(fired_block)
+        print("HITTED ", self.hit_blocks)
+        for i in range(-1, 2):
+            for j in range(-1, 2):
+                if (is_killed and (i or j)) or (is_killed and i and j):
+                    x = min(10, max(1, fired_block[0] + i))
+                    y = min(10, max(1, fired_block[1] + j))
+                    self.empty_blocks.add((x, y))
 
     def update_last_hit(self, fired_block, is_killed):
         pass
+
+    def put_dot(self, block):
+        print("EMPTY ", block)
+        self.empty_blocks.add(block)
 
     def perform_fire(self, block):
         print("fire ", block)
@@ -66,7 +81,10 @@ class ForPlayer():
                         self.near_blocks.clear()
                     is_killed = True
 
-
+        if not is_hit:
+            self.put_dot(block)
+        if self.random_mode:
+            self.update_last_hit(block)
         return is_hit, is_killed, ind
 
 
