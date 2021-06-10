@@ -1,6 +1,7 @@
 import pygame
 import constants
 
+
 class Border(pygame.sprite.Sprite):
     def __init__(self, distance=(10, 10), center=(0, 0), thickness=5, color=constants.BLACK):
         super(Border, self).__init__()

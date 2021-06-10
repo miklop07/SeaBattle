@@ -1,5 +1,7 @@
 import pygame
 import constants
+from interface import Border
+
 
 class LogDeck(pygame.sprite.Sprite):
     """docstring for LogDeck"""
@@ -8,7 +10,7 @@ class LogDeck(pygame.sprite.Sprite):
         self.width = 30 * 9
         self.height = 30 * 13
         self.image = pygame.Surface((self.width, self.height))
-        self.image.fill(constants.RED)
+        self.image.fill(constants.WHITE)
 
         self.rect = self.image.get_rect()
         self.rect.x = 30 * 13 * 2 + 90 + 30
@@ -23,6 +25,13 @@ class LogDeck(pygame.sprite.Sprite):
 
         self.padding = 20, 15
         self.record_interval = 15
+
+        self.border = Border(
+            distance=(self.width, self.height),
+            center=self.rect.center,
+            thickness=10,
+            color=constants.BLACK
+        )
 
     def update(self):
         pass

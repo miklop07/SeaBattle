@@ -2,13 +2,14 @@ import pygame
 import constants
 from interface import Button
 
+
 class MenuDeck(pygame.sprite.Sprite):
     def __init__(self):
         super(MenuDeck, self).__init__()
         self.width = 30 * 13 * 2
         self.height = 30 * 5
         self.image = pygame.Surface((self.width, self.height))
-        self.image.fill(constants.GREEN)
+        self.image.fill(constants.WHITE)
 
         self.rect = self.image.get_rect()
         self.rect.x = 90

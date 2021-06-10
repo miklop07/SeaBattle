@@ -3,6 +3,7 @@ import constants
 from log_deck import LogDeck
 from menu_deck import MenuDeck
 
+
 class PlayerDeck(pygame.sprite.Sprite):
     def __init__(self, x_pos, y_pos):
         super(PlayerDeck, self).__init__()
@@ -48,6 +49,7 @@ def main():
     all_sprites.add(player2_deck)
 
     log_deck = LogDeck()
+    all_sprites.add(log_deck.border)
     all_sprites.add(log_deck)
 
     menu_deck = MenuDeck()
