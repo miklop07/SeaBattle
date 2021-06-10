@@ -88,7 +88,7 @@ class LogDeck(pygame.sprite.Sprite):
 
 
 class Border(pygame.sprite.Sprite):
-    def __init__(self, distance=(10, 10), center=(0,0), thickness=5, color=BLACK):
+    def __init__(self, distance=(10, 10), center=(0, 0), thickness=5, color=BLACK):
         super(Border, self).__init__()
         self.thickness = thickness
         self.image = pygame.Surface((distance[0] + thickness, distance[1] + thickness))
@@ -243,6 +243,7 @@ def main():
         pygame.display.flip()
 
     pygame.quit()
+
 
 if __name__ == '__main__':
     main()
