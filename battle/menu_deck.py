@@ -4,6 +4,8 @@ from interface import Button
 
 
 class MenuDeck(pygame.sprite.Sprite):
+    """docstring for LogDeck"""
+
     def __init__(self):
         super(MenuDeck, self).__init__()
         self.width = 30 * 13 * 2

@@ -3,6 +3,8 @@ import constants
 
 
 class Border(pygame.sprite.Sprite):
+    """docstring for LogDeck"""
+
     def __init__(self, distance=(10, 10), center=(0, 0), thickness=5, color=constants.BLACK):
         super(Border, self).__init__()
         self.thickness = thickness
@@ -13,6 +15,8 @@ class Border(pygame.sprite.Sprite):
 
 
 class Button(pygame.sprite.Sprite):
+    """docstring for LogDeck"""
+
     def __init__(self, width=10, height=10, color=(constants.BLACK), x_pos=0, y_pos=0, text="", text_color=constants.WHITE):
         super(Button, self).__init__()
         self.width = width

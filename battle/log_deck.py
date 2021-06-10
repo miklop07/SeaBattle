@@ -4,7 +4,8 @@ from interface import Border
 
 
 class LogDeck(pygame.sprite.Sprite):
-    """docstring for LogDeck"""
+    """Docstring for LogDeck"""
+
     def __init__(self):
         super(LogDeck, self).__init__()
         self.width = 30 * 9
@@ -34,9 +35,11 @@ class LogDeck(pygame.sprite.Sprite):
         )
 
     def update(self):
+        """Docstring for LogDeck"""
         pass
 
     def draw(self, screen):
+        """Docstring for LogDeck"""
         right_border = None if self.bound == 0 else -self.bound
         for position, record in enumerate(self.log_list[-self.max_records - self.bound:right_border]):
             screen.blit(
@@ -48,14 +51,17 @@ class LogDeck(pygame.sprite.Sprite):
             )
 
     def add_record(self, record):
+        """Docstring for LogDeck"""
         self.log_list.append(record)
         if self.bound != 0:
             self.scroll_up()
 
     def scroll_up(self):
+        """Docstring for LogDeck"""
         if self.max_records + self.bound < len(self.log_list):
             self.bound += 1
 
     def scroll_down(self):
+        """Docstring for LogDeck"""
         if self.bound > 0:
             self.bound -= 1
