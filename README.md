@@ -21,4 +21,4 @@
 
 ## Интерфейсная модель
 Пример интерфейса
-<img src="readme_files/battle_interface.jpg">
+<img src="readme_files/game.png">

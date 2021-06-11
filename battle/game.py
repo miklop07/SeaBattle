@@ -93,7 +93,7 @@ def main():
     pygame.init()
     pygame.mixer.init()
     screen = pygame.display.set_mode((constants.WIDTH, constants.HEIGHT))
-    pygame.display.set_caption("My Game")
+    pygame.display.set_caption("Sea Battle")
     clock = pygame.time.Clock()
 
     all_sprites = pygame.sprite.Group()
@@ -122,17 +122,10 @@ def main():
     all_sprites.add(menu_deck.button_exit)
 
     pygame.font.init()
-
-    debug_var = 0
-
-    # Цикл игры
     running = True
     while running:
-        # Держим цикл на правильной скорости
         clock.tick(constants.FPS)
-        # Ввод процесса (события)
         for event in pygame.event.get():
-            # check for closing window
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.KEYDOWN:
@@ -140,8 +133,6 @@ def main():
                     log_deck.scroll_up()
                 elif event.key == pygame.K_DOWN:
                     log_deck.scroll_down()
-                elif event.key == pygame.K_a:
-                    log_deck.add_record(f"Player1 A{debug_var} +")
                     debug_var += 1
                 elif event.key == pygame.K_q:
                     running = False
@@ -180,10 +171,8 @@ def main():
                                     res = "++"
                             log_deck.add_record(f"Player1 {letter}{digit}{res}")
 
-        # Обновление
         all_sprites.update()
 
-        # Отрисовка
         screen.fill(constants.WHITE)
         all_sprites.draw(screen)
         log_deck.draw(screen)
@@ -196,7 +185,6 @@ def main():
         player1_deck.draw_ships(pl.ships.ships_list, pl.killed)
         player2_deck.draw_ships(comp.ships.ships_list, comp.killed, show=False)
 
-        # После отрисовки всего, переворачиваем экран
         pygame.display.flip()
 
         if comp.turn:
