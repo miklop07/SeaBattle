@@ -3,10 +3,11 @@ Ships module
 """
 import random
 
+
 class Ships:
     """Class responsible for ships generation and storing"""
     def __init__(self, no_ships=False):
-        self.available_blocks = set((x, y) for x in range (1, 11) for y in range (1, 11))
+        self.available_blocks = set((x, y) for x in range(1, 11) for y in range(1, 11))
         self.ships = set()
         if no_ships:
             self.ships_list = []
@@ -25,9 +26,9 @@ class Ships:
         return x, y, is_vetrical, direction
 
     def add_block_to_ship(self, pos, direction, is_vetrical, coords):
-        """Add one block to new ship according to direction and orientation. 
+        """Add one block to new ship according to direction and orientation.
         If there if field edge just build block in opposite direction.
-        
+
         :param pos: int, current x or y coordinate
         :param direction: 1 (forward) or -1 (reverse)
         :param is_vertical: 1 if the ship is vertical
@@ -35,7 +36,7 @@ class Ships:
         :return: coordinates of chosen cell and new direction in case it was changed
         """
         if (pos <= 1 and direction == -1) or (pos >= 10 and direction == 1):
-            direction *= -1 
+            direction *= -1
             return direction, coords[0][is_vetrical] + direction
         else:
             return direction, coords[-1][is_vetrical] + direction
@@ -81,4 +82,3 @@ class Ships:
     def is_free_place(self, coords):
         set_coords = set(coords)
         return set_coords.issubset(self.available_blocks)
-

@@ -65,7 +65,6 @@ class ForPlayer():
                         if (0 < x < 11) and (0 < y < 11):
                             self.empty_blocks.add((x, y))
                             self.all_blocks.discard((x, y))
-                        
 
     def update_last_hit(self, fired_block, missed):
         """For computer player, to fire near previous place is there was hit"""
@@ -100,7 +99,6 @@ class ForPlayer():
                 if (0 < x < 11) and (0 < y < 11) and (x, y) not in self.empty_blocks:
                     self.near_blocks.add((x, y))
                 break
-            
 
     def put_dot(self, block):
         self.empty_blocks.add(block)
@@ -132,7 +130,3 @@ class ForPlayer():
             if self.random_mode:
                 self.update_last_hit(block, missed=True)
         return is_hit, is_killed, ind
-
-
-
-
