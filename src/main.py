@@ -316,13 +316,12 @@ def main():
                         block_to_fire = pl.find_fired_block(x, y)
                         if block_to_fire is not None:
                             is_hit, killed, ind = pl.perform_fire(block_to_fire)
-                            print("RES ", is_hit, killed, ind)
                             if is_hit:
                                 comp.ships.ships.discard(block_to_fire)
-                            if killed:
-                                comp.killed.append(comp.ships.ships_list[ind])
-                    else:
-                        is_hit, killed, ind = comp.random_fire()
+                                if killed:
+                                    comp.killed.append(comp.ships.ships_list[ind])
+                            else:
+                                comp.turn = True
 
         # Обновление
         all_sprites.update()
@@ -333,8 +332,8 @@ def main():
         log_deck.draw(screen)
         menu_deck.draw(screen)
 
-        # player2_deck.draw_dots(pl.empty_blocks)
-        # player1_deck.draw_dots(comp.empty_blocks)
+        player2_deck.draw_dots(pl.empty_blocks)
+        player1_deck.draw_dots(comp.empty_blocks)
         player2_deck.draw_killed(pl.hit_blocks)
         player1_deck.draw_killed(comp.hit_blocks)
         player1_deck.draw_ships(pl.ships.ships_list, pl.killed)
@@ -342,6 +341,15 @@ def main():
 
         # После отрисовки всего, переворачиваем экран
         pygame.display.flip()
+
+        if comp.turn:
+            is_hit, killed, ind = comp.random_fire()
+            if is_hit:
+                pl.ships.ships.discard(block_to_fire)
+                if killed:
+                    pl.killed.append(pl.ships.ships_list[ind])
+            else:
+                comp.turn = False
 
     pygame.quit()
 
