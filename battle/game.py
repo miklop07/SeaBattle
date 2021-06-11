@@ -134,6 +134,7 @@ def main():
 
     pygame.font.init()
     running = True
+    end_game = True
     while running:
         # Держим цикл на правильной скорости
         clock.tick(constants.FPS)
@@ -147,12 +148,15 @@ def main():
                     log_deck.scroll_up()
                 elif event.key == pygame.K_DOWN:
                     log_deck.scroll_down()
+                elif event.key == pygame.K_a:
+                    log_deck.add_record(f"Player1 A{debug_var} +")
                 elif event.key == pygame.K_q:
                     running = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if menu_deck.button_exit.is_mouse_on_button():
                     running = False
                 elif menu_deck.button_start.is_mouse_on_button():
+                    end_game = False
                     player1_deck.renew()
                     player2_deck.renew()
                     comp = ForPlayer(random_mode=True)
@@ -164,7 +168,7 @@ def main():
                     player1_deck.draw_ships(pl.ships.ships_list)
                     player2_deck.draw_ships(comp.ships.ships_list, show=False)
                 else:
-                    if not comp.turn:
+                    if not comp.turn and not end_game:
                         x, y = event.pos
                         block_to_fire = pl.find_fired_block(x, y)
                         if block_to_fire is not None:
@@ -203,7 +207,7 @@ def main():
         # После отрисовки всего, переворачиваем экран
         pygame.display.flip()
 
-        if comp.turn:
+        if comp.turn and not end_game:
             block_to_fire = comp.random_fire()
             is_hit, killed, ind = comp.perform_fire(block_to_fire)
             if is_hit:
@@ -220,5 +224,9 @@ def main():
                 if killed:
                     res = "++"
             log_deck.add_record(f"Player2 {letter}{digit}{res}")
+        if not comp.ships.ships and not end_game:
+            end_game = True
+        if not pl.ships.ships and not end_game:
+            end_game = True
 
     pygame.quit()

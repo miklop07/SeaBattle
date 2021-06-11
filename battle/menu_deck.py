@@ -1,11 +1,12 @@
 """Menu module."""
 
 import pygame
+import battle
 import battle.constants as constants
 from battle.interface import Button
 import gettext
 
-gettext.install("battle", localedir="battle")
+gettext.install("battle", localedir=battle.__file__[:-12])
 
 
 class MenuDeck(pygame.sprite.Sprite):
