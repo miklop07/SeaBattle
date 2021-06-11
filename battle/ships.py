@@ -1,12 +1,12 @@
-"""
-Ships module
-"""
+"""Ships module."""
 import random
 
 
 class Ships:
-    """Class responsible for ships generation and storing"""
+    """Class responsible for ships generation and storing."""
+
     def __init__(self, no_ships=False):
+        """docstring."""
         self.available_blocks = set((x, y) for x in range(1, 11) for y in range(1, 11))
         self.ships = set()
         if no_ships:
@@ -26,8 +26,7 @@ class Ships:
         return x, y, is_vetrical, direction
 
     def add_block_to_ship(self, pos, direction, is_vetrical, coords):
-        """Add one block to new ship according to direction and orientation.
-        If there if field edge just build block in opposite direction.
+        """Add one block to new ship according to direction and orientation. If there if edge just build block in opposite direction.
 
         :param pos: int, current x or y coordinate
         :param direction: 1 (forward) or -1 (reverse)
@@ -42,10 +41,12 @@ class Ships:
             return direction, coords[-1][is_vetrical] + direction
 
     def add_to_set(self, ship):
+        """docstring."""
         for block in ship:
             self.ships.add(block)
 
     def close_near_position(self, ship):
+        """docstring."""
         for block in ship:
             for i in range(-1, 2):
                 for j in range(-1, 2):
@@ -54,6 +55,7 @@ class Ships:
                     self.available_blocks.discard((x, y))
 
     def create_one_ship(self, length_of_ship, available_blocks):
+        """docstring."""
         coords = []
         x, y, is_vetrical, direction = self.choose_start(available_blocks)
         for _ in range(length_of_ship):
@@ -68,6 +70,7 @@ class Ships:
             return self.create_one_ship(length_of_ship, available_blocks)
 
     def create_all_ships(self):
+        """docstring."""
         ships_coords_list = []
         # reverse order of sizes because big ships are harder to set
         for length_of_ship in range(4, 0, -1):
@@ -80,5 +83,6 @@ class Ships:
         return(ships_coords_list)
 
     def is_free_place(self, coords):
+        """docstring."""
         set_coords = set(coords)
         return set_coords.issubset(self.available_blocks)

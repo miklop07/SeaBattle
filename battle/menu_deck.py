@@ -1,3 +1,5 @@
+"""Menu module."""
+
 import pygame
 import battle.constants as constants
 from battle.interface import Button
@@ -7,9 +9,10 @@ gettext.install("battle", localedir="po")
 
 
 class MenuDeck(pygame.sprite.Sprite):
-    """docstring for LogDeck"""
+    """docstring for LogDeck."""
 
     def __init__(self):
+        """docstring."""
         super(MenuDeck, self).__init__()
         self.width = 30 * 13 * 2
         self.height = 30 * 5
@@ -41,5 +44,6 @@ class MenuDeck(pygame.sprite.Sprite):
         )
 
     def draw(self, screen):
+        """docstring."""
         self.button_start.draw(screen)
         self.button_exit.draw(screen)

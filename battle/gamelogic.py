@@ -1,3 +1,4 @@
+"""Logic module."""
 import copy
 import pygame
 import random
@@ -5,8 +6,10 @@ from battle.ships import Ships
 
 
 class ForPlayer():
-    """Class with all neccessary player's info"""
+    """Class with all neccessary player's info."""
+
     def __init__(self, random_mode):
+        """docstring."""
         self.all_blocks = set((a, b) for a in range(1, 11) for b in range(1, 11))
         self.turn = False
         self.random_mode = random_mode
@@ -19,13 +22,15 @@ class ForPlayer():
         self.opponent_ships = None
 
     def add_opponent_list(self, ships):
+        """docstring."""
         self.opponent_ships = copy.deepcopy(ships)
 
     def add_ships(self):
+        """docstring."""
         self.ships = Ships()
 
     def random_fire(self):
-        """Choose block to shoot randomly"""
+        """Choose block to shoot randomly."""
         # short delay just to see the moment of shooting
         pygame.time.delay(500)
         if self.near_blocks:
@@ -37,6 +42,7 @@ class ForPlayer():
         return fired_block
 
     def find_fired_block(self, x, y):
+        """docstring."""
         left = 180 + 12 * 30
         up = 90
         if (left <= x <= left + 10 * 30) and (up <= y <= up + 10 * 30):
@@ -44,7 +50,7 @@ class ForPlayer():
             return block_to_fire
 
     def update_sets(self, fired_block, is_killed):
-        """Update sets of known empty cells, hit places and possible blocks to shoot"""
+        """Update sets of known empty cells, hit places and possible blocks to shoot."""
         self.all_blocks.discard(fired_block)
         self.hit_blocks.add(fired_block)
         for i in range(-1, 2):
@@ -67,7 +73,7 @@ class ForPlayer():
                             self.all_blocks.discard((x, y))
 
     def update_last_hit(self, fired_block, missed):
-        """For computer player, to fire near previous place is there was hit"""
+        """For computer player, to fire near previous place is there was hit."""
         if missed:
             self.near_blocks.discard(fired_block)
             return
@@ -101,9 +107,11 @@ class ForPlayer():
                 break
 
     def put_dot(self, block):
+        """docstring."""
         self.empty_blocks.add(block)
 
     def perform_fire(self, block):
+        """docstring."""
         is_hit = False
         ind = -1
         is_killed = False

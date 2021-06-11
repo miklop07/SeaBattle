@@ -1,11 +1,14 @@
+"""Interface module."""
+
 import pygame
 import battle.constants as constants
 
 
 class Border(pygame.sprite.Sprite):
-    """docstring for LogDeck"""
+    """docstring for LogDeck."""
 
     def __init__(self, distance=(10, 10), center=(0, 0), thickness=5, color=constants.BLACK):
+        """docstring."""
         super(Border, self).__init__()
         self.thickness = thickness
         self.image = pygame.Surface((distance[0] + thickness, distance[1] + thickness))
@@ -15,9 +18,10 @@ class Border(pygame.sprite.Sprite):
 
 
 class Button(pygame.sprite.Sprite):
-    """docstring for LogDeck"""
+    """docstring for Button."""
 
     def __init__(self, width=10, height=10, color=(constants.BLACK), x_pos=0, y_pos=0, text="", text_color=constants.WHITE):
+        """docstring."""
         super(Button, self).__init__()
         self.width = width
         self.height = height
@@ -42,9 +46,11 @@ class Button(pygame.sprite.Sprite):
         )
 
     def draw(self, screen):
+        """docstring."""
         screen.blit(self.text, (self.rect.x + self.padding, self.rect.y + self.font_size))
 
     def is_mouse_on_button(self):
+        """docstring."""
         m_x, m_y = pygame.mouse.get_pos()
         if m_x >= self.rect.x and m_x <= self.rect.x + self.width and \
            m_y >= self.rect.y and m_y <= self.rect.y + self.height:
