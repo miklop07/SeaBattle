@@ -1,6 +1,5 @@
 import pygame
 import battle.constants as constants
-from battle.interface import Border
 
 
 class LogDeck(pygame.sprite.Sprite):

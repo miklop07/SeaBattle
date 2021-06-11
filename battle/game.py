@@ -24,21 +24,17 @@ class PlayerDeck(pygame.sprite.Sprite):
         for i in range(1, 11):
             pygame.draw.line(self.image, constants.BLACK, (30, i * 30), (30 * 11, i * 30))
             pygame.draw.line(self.image, constants.BLACK, (i * 30, 30), (30 * i, 11 * 30))
-    
+
     def nums_letters(self):
         letters = "ABCDEFGHIJ"
-        for i in range (10):
+        for i in range(10):
             nums = self.font.render(str(i + 1), True, constants.BLACK)
             lets = self.font.render(letters[i], True, constants.BLACK)
-            nums_width = nums.get_width()
-            nums_height = nums.get_height()
-            lets_width = lets.get_width()
-            lets_height = lets.get_height()
 
             self.image.blit(nums, (5, 35 + i * 30))
             self.image.blit(lets, (40 + i * 30, 5))
 
-    def draw_ships(self, ships_list = None, killed_ships = [], show=True):
+    def draw_ships(self, ships_list=None, killed_ships=[], show=True):
         if not ships_list:
             return
         for ship in ships_list:
@@ -59,21 +55,20 @@ class PlayerDeck(pygame.sprite.Sprite):
             if show or color == constants.RED:
                 pygame.draw.rect(self.image, color, ((x, y), (ship_width, ship_height)), width=3)
 
-    def draw_dots(self, dot_set = set()):
+    def draw_dots(self, dot_set=set()):
         """To mark all empry cells on the field"""
         for dot in dot_set:
             x_pos = 30 * (dot[0]) + 15
             y_pos = 30 * (dot[1]) + 15
             pygame.draw.circle(self.image, constants.BLACK, (x_pos, y_pos), 5)
 
-    def draw_killed(self, kill_set = set()):
+    def draw_killed(self, kill_set=set()):
         """To mark ships which were hit"""
         for block in kill_set:
             x = block[0] * 30
             y = block[1] * 30
             pygame.draw.line(self.image, constants.BLACK, (x, y), (x + 30, y + 30), 5)
             pygame.draw.line(self.image, constants.BLACK, (x + 30, y), (x, y + 30), 5)
-
 
     def renew(self):
         self.image.fill(constants.WHITE)
@@ -127,7 +122,7 @@ def main():
     all_sprites.add(menu_deck.button_exit)
 
     pygame.font.init()
-    
+
     debug_var = 0
 
     # Цикл игры
@@ -167,8 +162,6 @@ def main():
                 else:
                     if not comp.turn:
                         x, y = event.pos
-                        left = 180 + 12 * 30
-                        up = 90
                         block_to_fire = pl.find_fired_block(x, y)
                         if block_to_fire is not None:
                             is_hit, killed, ind = pl.perform_fire(block_to_fire)
