@@ -1,10 +1,13 @@
 import random
 
 class Ships:
-    def __init__(self):
+    def __init__(self, no_ships=False):
         self.available_blocks = set((x, y) for x in range (1, 11) for y in range (1, 11))
         self.ships = set()
-        self.ships_list = self.create_all_ships()
+        if no_ships:
+            self.ships_list = []
+        else:
+            self.ships_list = self.create_all_ships()
 
     def choose_start(self, available_blocks):
         is_vetrical = random.randint(0, 1)
