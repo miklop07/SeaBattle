@@ -1,6 +1,7 @@
 import random
 
 class Ships:
+    """Class responsible for ships generation and storing"""
     def __init__(self, no_ships=False):
         self.available_blocks = set((x, y) for x in range (1, 11) for y in range (1, 11))
         self.ships = set()
@@ -32,7 +33,6 @@ class Ships:
                 for j in range(-1, 2):
                     x = min(10, max(1, block[0] + i))
                     y = min(10, max(1, block[1] + j))
-                    # print("delete", (x, y))
                     self.available_blocks.discard((x, y))
 
     def create_one_ship(self, length_of_ship, available_blocks):

@@ -18,6 +18,7 @@ BLUE = (0, 0, 255)
 
 
 class PlayerDeck(pygame.sprite.Sprite):
+    """Class for player's game fields were all ships are shown"""
     def __init__(self, x_pos, y_pos):
         super(PlayerDeck, self).__init__()
         self.image = pygame.Surface((30 * 11, 30 * 11))
@@ -71,12 +72,14 @@ class PlayerDeck(pygame.sprite.Sprite):
             pygame.draw.rect(self.image, color, ((x, y), (ship_width, ship_height)), width=3)
 
     def draw_dots(self, dot_set = set()):
+        """To mark all empry cells on the field"""
         for dot in dot_set:
             x_pos = 30 * (dot[0]) + 15
             y_pos = 30 * (dot[1]) + 15
             pygame.draw.circle(self.image, BLACK, (x_pos, y_pos), 5)
 
     def draw_killed(self, kill_set = set()):
+        """To mark ships which were hit"""
         for block in kill_set:
             x = block[0] * 30
             y = block[1] * 30

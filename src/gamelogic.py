@@ -5,6 +5,7 @@ from ships import Ships
 
 
 class ForPlayer():
+    """Class with all neccessary player's info"""
     def __init__(self, random_mode):
         self.all_blocks = set((a, b) for a in range(1, 11) for b in range(1, 11))
         self.turn = False
@@ -24,6 +25,7 @@ class ForPlayer():
         self.ships = Ships()
 
     def random_fire(self):
+        """Choose block to shoot randomly"""
         # short delay just to see the moment of shooting
         pygame.time.delay(500)
         if self.near_blocks:
@@ -42,6 +44,7 @@ class ForPlayer():
             return block_to_fire
 
     def update_sets(self, fired_block, is_killed):
+        """Update sets of known empty cells, hit places and possible blocks to shoot"""
         self.all_blocks.discard(fired_block)
         self.hit_blocks.add(fired_block)
         for i in range(-1, 2):
@@ -65,6 +68,7 @@ class ForPlayer():
                         
 
     def update_last_hit(self, fired_block, missed):
+        """For computer player, to fire near previous place is there was hit"""
         if missed:
             self.near_blocks.discard(fired_block)
             return
