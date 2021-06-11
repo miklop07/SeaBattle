@@ -50,7 +50,7 @@ class PlayerDeck(pygame.sprite.Sprite):
             self.image.blit(nums, (5, 35 + i * 30))
             self.image.blit(lets, (40 + i * 30, 5))
 
-    def draw_ships(self, ships_list = None, killed_ships = []):
+    def draw_ships(self, ships_list = None, killed_ships = [], show=True):
         if not ships_list:
             return
         for ship in ships_list:
@@ -67,9 +67,9 @@ class PlayerDeck(pygame.sprite.Sprite):
             y = 30 * y_0
             color = GREY
             if ship in killed_ships:
-                # print("SHIP ", ship, " is killed")
                 color = RED
-            pygame.draw.rect(self.image, color, ((x, y), (ship_width, ship_height)), width=3)
+            if show or color == RED:
+                pygame.draw.rect(self.image, color, ((x, y), (ship_width, ship_height)), width=3)
 
     def draw_dots(self, dot_set = set()):
         """To mark all empry cells on the field"""
@@ -310,7 +310,7 @@ def main():
                     comp.add_opponent_list(pl.ships.ships_list)
                     pl.add_opponent_list(comp.ships.ships_list)
                     player1_deck.draw_ships(pl.ships.ships_list)
-                    player2_deck.draw_ships(comp.ships.ships_list)
+                    player2_deck.draw_ships(comp.ships.ships_list, show=False)
                 else:
                     if not comp.turn:
                         x, y = event.pos
@@ -348,7 +348,7 @@ def main():
         player2_deck.draw_killed(pl.hit_blocks)
         player1_deck.draw_killed(comp.hit_blocks)
         player1_deck.draw_ships(pl.ships.ships_list, pl.killed)
-        player2_deck.draw_ships(comp.ships.ships_list, comp.killed)
+        player2_deck.draw_ships(comp.ships.ships_list, comp.killed, show=False)
 
         # После отрисовки всего, переворачиваем экран
         pygame.display.flip()
