@@ -133,7 +133,6 @@ def main():
                     log_deck.scroll_up()
                 elif event.key == pygame.K_DOWN:
                     log_deck.scroll_down()
-                    debug_var += 1
                 elif event.key == pygame.K_q:
                     running = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
