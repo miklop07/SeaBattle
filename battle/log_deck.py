@@ -10,7 +10,7 @@ class LogDeck(pygame.sprite.Sprite):
         self.width = 30 * 9
         self.height = 30 * 13
         self.image = pygame.Surface((self.width, self.height))
-        self.image.fill(constants.RED)
+        self.image.fill(constants.WHITE)
 
         self.rect = self.image.get_rect()
         self.rect.x = 30 * 13 * 2 + 90 + 30
