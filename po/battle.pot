@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-06-11 03:14+0300\n"
+"POT-Creation-Date: 2021-06-11 11:56+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: battle/menu_deck.py:30
+#: battle/menu_deck.py:32
 msgid "New game"
 msgstr ""
 
-#: battle/menu_deck.py:40
+#: battle/menu_deck.py:42
 msgid "Exit"
 msgstr ""
 

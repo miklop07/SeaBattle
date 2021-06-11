@@ -18,3 +18,10 @@ help:
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
+babel_init:
+	pybabel extract -o po/battle.pot battle
+	pybabel init -D battle -i po/battle.pot -d battle -l ru
+
+babel_compile:
+	pybabel compile -D battle -i battle/ru/LC_MESSAGES/battle.po -o battle/ru/LC_MESSAGES/battle.mo

@@ -5,7 +5,7 @@ import battle.constants as constants
 from battle.interface import Button
 import gettext
 
-gettext.install("battle", localedir="po")
+gettext.install("battle", localedir="battle")
 
 
 class MenuDeck(pygame.sprite.Sprite):
