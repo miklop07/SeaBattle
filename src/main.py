@@ -322,6 +322,14 @@ def main():
                                     comp.killed.append(comp.ships.ships_list[ind])
                             else:
                                 comp.turn = True
+                            letter = "ABCDEFGHIJ"[block_to_fire[0] - 1]
+                            digit = block_to_fire[1]
+                            res = '-'
+                            if is_hit:
+                                res = "+"
+                                if killed:
+                                    res = "++"
+                            log_deck.add_record(f"Player1 {letter}{digit}{res}")
 
         # Обновление
         all_sprites.update()
@@ -343,13 +351,22 @@ def main():
         pygame.display.flip()
 
         if comp.turn:
-            is_hit, killed, ind = comp.random_fire()
+            block_to_fire = comp.random_fire()
+            is_hit, killed, ind = comp.perform_fire(block_to_fire)
             if is_hit:
                 pl.ships.ships.discard(block_to_fire)
                 if killed:
                     pl.killed.append(pl.ships.ships_list[ind])
             else:
                 comp.turn = False
+            letter = "ABCDEFGHIJ"[block_to_fire[0] - 1]
+            digit = block_to_fire[1]
+            res = '-'
+            if is_hit:
+                res = "+"
+                if killed:
+                    res = "++"
+            log_deck.add_record(f"Player2 {letter}{digit}{res}")
 
     pygame.quit()
 

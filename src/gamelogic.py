@@ -32,7 +32,7 @@ class ForPlayer():
             choose_from = self.all_blocks
         fired_block = random.choice(tuple(choose_from))
         self.all_blocks.discard(fired_block)
-        return self.perform_fire(fired_block)
+        return fired_block
 
     def find_fired_block(self, x, y):
         left = 180 + 12 * 30
