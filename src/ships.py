@@ -1,3 +1,6 @@
+"""
+Ships module
+"""
 import random
 
 class Ships:
@@ -11,12 +14,26 @@ class Ships:
             self.ships_list = self.create_all_ships()
 
     def choose_start(self, available_blocks):
+        """Choose start cell for new ship.
+
+        :param available_blocks: set of pairs (x, y) of all free cells in the field
+        :return: coordinates of chosen cell, if the ship is vertical, if the direction is reverse
+        """
         is_vetrical = random.randint(0, 1)
         direction = random.choice((-1, 1))
         x, y = random.choice(tuple(available_blocks))
         return x, y, is_vetrical, direction
 
     def add_block_to_ship(self, pos, direction, is_vetrical, coords):
+        """Add one block to new ship according to direction and orientation. 
+        If there if field edge just build block in opposite direction.
+        
+        :param pos: int, current x or y coordinate
+        :param direction: 1 (forward) or -1 (reverse)
+        :param is_vertical: 1 if the ship is vertical
+        :param coords: set of pairs (x, y) - all current blocks in ship
+        :return: coordinates of chosen cell and new direction in case it was changed
+        """
         if (pos <= 1 and direction == -1) or (pos >= 10 and direction == 1):
             direction *= -1 
             return direction, coords[0][is_vetrical] + direction

@@ -1,0 +1,5 @@
+Ships
+========
+
+.. automodule:: ships
+   :members:   

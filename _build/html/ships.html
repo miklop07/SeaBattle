@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ships &#8212; Sea Battle 0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Modules" href="modules.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-ships">
+<span id="ships"></span><h1>Ships<a class="headerlink" href="#module-ships" title="Permalink to this headline">¶</a></h1>
+<p>Ships module</p>
+<dl class="py class">
+<dt id="ships.Ships">
+<em class="property">class </em><code class="sig-prename descclassname">ships.</code><code class="sig-name descname">Ships</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">no_ships</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ships.Ships" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class responsible for ships generation and storing</p>
+<dl class="py method">
+<dt id="ships.Ships.add_block_to_ship">
+<code class="sig-name descname">add_block_to_ship</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pos</span></em>, <em class="sig-param"><span class="n">direction</span></em>, <em class="sig-param"><span class="n">is_vetrical</span></em>, <em class="sig-param"><span class="n">coords</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ships.Ships.add_block_to_ship" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add one block to new ship according to direction and orientation. 
+If there if field edge just build block in opposite direction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pos</strong> – int, current x or y coordinate</p></li>
+<li><p><strong>direction</strong> – 1 (forward) or -1 (reverse)</p></li>
+<li><p><strong>is_vertical</strong> – 1 if the ship is vertical</p></li>
+<li><p><strong>coords</strong> – set of pairs (x, y) - all current blocks in ship</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>coordinates of chosen cell and new direction in case it was changed</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ships.Ships.choose_start">
+<code class="sig-name descname">choose_start</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">available_blocks</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ships.Ships.choose_start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Choose start cell for new ship.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>available_blocks</strong> – set of pairs (x, y) of all free cells in the field</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>coordinates of chosen cell, if the ship is vertical, if the direction is reverse</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Sea Battle</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="rules.html">Rules</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Modules</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Ships</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">Modules</a><ul>
+      <li>Previous: <a href="modules.html" title="previous chapter">Modules</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Lopunov, Kuprash.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/ships.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
